@@ -6,11 +6,11 @@ import { cn } from '@/src/lib/utils';
 
 const portfolioItems: PortfolioItem[] = [
   { id: '1', title: 'Modern Waterfront Estate', category: 'Exterior', imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800' },
-  { id: '2', title: 'Minimalist Penthouse', category: 'Interior', imageUrl: 'https://images.unsplash.com/photo-1600607687940-47a0f9259d47?auto=format&fit=crop&q=80&w=800' },
+  { id: '2', title: 'Minimalist Penthouse', category: 'Interior', imageUrl: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=800' },
   { id: '3', title: 'Luxury Condo Lounge', category: 'Condo', imageUrl: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=800' },
   { id: '4', title: 'Corporate Headquarters', category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800' },
-  { id: '5', title: 'Classic Rosedale Manor', category: 'Exterior', imageUrl: 'https://images.unsplash.com/photo-1600585154526-990dcea4db0d?auto=format&fit=crop&q=80&w=800' },
-  { id: '6', title: 'Chef\'s Kitchen Design', category: 'Interior', imageUrl: 'https://images.unsplash.com/photo-1600566753086-00f18fb6f3ea?auto=format&fit=crop&q=80&w=800' },
+  { id: '5', title: 'Victorian Cabbagetown Semi', category: 'Exterior', imageUrl: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&q=80&w=800' },
+  { id: '6', title: 'Modern Annex Kitchen', category: 'Interior', imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800' },
 ];
 
 export default function Portfolio() {

@@ -16,12 +16,14 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  app.set('trust proxy', 1);
   app.use(express.json());
   app.use(cookieParser());
   app.use(session({
-    secret: "tecsonmedia-secret",
+    secret: process.env.SESSION_SECRET || "tecsonmedia-secret",
     resave: false,
     saveUninitialized: true,
+    proxy: true,
     cookie: { 
       secure: true, 
       sameSite: 'none',
@@ -30,19 +32,38 @@ async function startServer() {
   }));
 
   // Google OAuth Setup
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI || 
+    (process.env.APP_URL ? `${process.env.APP_URL}/auth/callback` : "http://localhost:3000/auth/callback");
+
+  console.log("Using Redirect URI:", redirectUri);
+
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URI || `${process.env.APP_URL}/auth/callback`
+    redirectUri
   );
 
+  app.get("/api/auth/status", (req, res) => {
+    const tokens = (req.session as any).tokens;
+    res.json({ isConnected: !!tokens });
+  });
+
   app.get("/api/auth/url", (req, res) => {
-    const url = oauth2Client.generateAuthUrl({
-      access_type: "offline",
-      scope: ["https://www.googleapis.com/auth/calendar.events", "https://www.googleapis.com/auth/calendar.readonly"],
-      prompt: "consent"
-    });
-    res.json({ url });
+    try {
+      if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+        throw new Error("Google OAuth credentials (ID/Secret) are missing. Please add them to the environment variables in Settings.");
+      }
+
+      const url = oauth2Client.generateAuthUrl({
+        access_type: "offline",
+        scope: ["https://www.googleapis.com/auth/calendar.events", "https://www.googleapis.com/auth/calendar.readonly"],
+        prompt: "consent"
+      });
+      res.json({ url });
+    } catch (error) {
+      console.error("Error generating auth URL:", error);
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to generate auth URL" });
+    }
   });
 
   app.get("/auth/callback", async (req, res) => {

@@ -5,14 +5,15 @@ import { cn } from '@/src/lib/utils';
 export default function Hero() {
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
-      {/* Background Slideshow (Simplified for now with one high-res image) */}
+      {/* Abstract Luxury Background with Warm Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1920"
-          alt="Luxury Real Estate"
-          className="h-full w-full object-cover brightness-50"
+          src="https://images.unsplash.com/photo-1502239608882-93b729c6af43?auto=format&fit=crop&q=80&w=1920"
+          alt="Abstract Luxury Texture"
+          className="h-full w-full object-cover brightness-[0.4]"
           referrerPolicy="no-referrer"
         />
+        <div className="absolute inset-0 bg-gradient-to-br from-dark/60 via-dark/40 to-gold/20" />
       </div>
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">

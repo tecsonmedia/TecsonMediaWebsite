@@ -8,6 +8,17 @@ export default function Booking() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
+    const checkStatus = async () => {
+      try {
+        const response = await fetch('/api/auth/status');
+        const data = await response.json();
+        if (data.isConnected) setIsConnected(true);
+      } catch (error) {
+        console.error('Status check error:', error);
+      }
+    };
+    checkStatus();
+
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === 'OAUTH_AUTH_SUCCESS') {
         setIsConnected(true);
@@ -21,10 +32,16 @@ export default function Booking() {
     setIsConnecting(true);
     try {
       const response = await fetch('/api/auth/url');
-      const { url } = await response.json();
-      window.open(url, 'oauth_popup', 'width=600,height=700');
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to get auth URL');
+      }
+      
+      window.open(data.url, 'oauth_popup', 'width=600,height=700');
     } catch (error) {
       console.error('Auth error:', error);
+      alert(error instanceof Error ? error.message : 'Could not connect to Google Calendar. Please check your configuration.');
     } finally {
       setIsConnecting(false);
     }
@@ -42,7 +59,7 @@ export default function Booking() {
           <div>
             <h2 className="font-serif text-4xl font-light md:text-6xl">Book Your <span className="italic text-gold">Session</span></h2>
             <p className="mt-6 text-lg font-light opacity-70">
-              Ready to elevate your listing? Use our automated system to check availability and secure your spot instantly.
+              Ready to elevate your listing? Use my automated system to check availability and secure your spot instantly.
             </p>
 
             <div className="mt-12 space-y-8">
@@ -68,7 +85,7 @@ export default function Booking() {
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <MapPin className="text-gold" />
-                  <p className="text-sm">Serving Toronto, Mississauga, Oakville & Vaughan</p>
+                  <p className="text-sm">Serving Toronto and surrounding areas</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <Calendar className="text-gold" />
@@ -89,7 +106,7 @@ export default function Booking() {
                   <CheckCircle className="h-12 w-12" />
                 </div>
                 <h3 className="mt-6 font-serif text-3xl">Booking Received</h3>
-                <p className="mt-4 opacity-60">We've sent a confirmation email with all the details. See you soon!</p>
+                <p className="mt-4 opacity-60">I've sent a confirmation email with all the details. See you soon!</p>
                 <button 
                   onClick={() => setIsSubmitted(false)}
                   className="mt-8 text-xs font-bold uppercase tracking-widest text-gold hover:underline"

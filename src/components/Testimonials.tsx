@@ -5,19 +5,19 @@ const testimonials = [
   {
     name: "Coming Soon",
     role: "Verified Client",
-    content: "Client feedback will be displayed here soon. We are committed to providing exceptional service to every partner.",
+    content: "Client feedback will be displayed here soon. I am committed to providing exceptional service to every partner.",
     rating: 5
   },
   {
     name: "Coming Soon",
     role: "Verified Client",
-    content: "Client feedback will be displayed here soon. We are committed to providing exceptional service to every partner.",
+    content: "Client feedback will be displayed here soon. I am committed to providing exceptional service to every partner.",
     rating: 5
   },
   {
     name: "Coming Soon",
     role: "Verified Client",
-    content: "Client feedback will be displayed here soon. We are committed to providing exceptional service to every partner.",
+    content: "Client feedback will be displayed here soon. I am committed to providing exceptional service to every partner.",
     rating: 5
   }
 ];

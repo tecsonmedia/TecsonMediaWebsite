@@ -5,7 +5,7 @@ const services = [
   {
     icon: <Camera className="h-8 w-8" />,
     title: "Real Estate Photography",
-    description: "High-end HDR photography with professional retouching. We focus on composition and lighting to make spaces feel expansive and inviting.",
+    description: "High-end HDR photography with professional retouching. I focus on composition and lighting to make spaces feel expansive and inviting.",
     price: "Starting at $50"
   },
   {
@@ -46,7 +46,7 @@ export default function Services() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.2 }}
-              className="group rounded-2xl border border-white/10 bg-white/5 p-10 transition-colors hover:border-gold/50"
+              className="group rounded-2xl border border-white/10 bg-white/5 p-10 transition-all hover:border-gold/50 hover:bg-gold/5"
             >
               <div className="text-gold">{service.icon}</div>
               <h3 className="mt-6 font-serif text-2xl">{service.title}</h3>

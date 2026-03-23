@@ -5,12 +5,12 @@ import { PortfolioItem } from '@/src/types';
 import { cn } from '@/src/lib/utils';
 
 const portfolioItems: PortfolioItem[] = [
-  { id: '1', title: 'Modern Waterfront Estate', category: 'Exterior', imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800' },
-  { id: '2', title: 'Minimalist Penthouse', category: 'Interior', imageUrl: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&q=80&w=800' },
-  { id: '3', title: 'Luxury Condo Lounge', category: 'Condo', imageUrl: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=800' },
-  { id: '4', title: 'Corporate Headquarters', category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800' },
-  { id: '5', title: 'Victorian Cabbagetown Semi', category: 'Exterior', imageUrl: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&q=80&w=800' },
-  { id: '6', title: 'Modern Annex Kitchen', category: 'Interior', imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800' },
+  { id: '1', title: 'Modern Waterfront Estate', category: 'Exterior', imageUrl: 'https://picsum.photos/seed/estate-luxury/800/1000' },
+  { id: '2', title: 'Minimalist Penthouse', category: 'Interior', imageUrl: 'https://picsum.photos/seed/penthouse-interior/800/1000' },
+  { id: '3', title: 'Luxury Condo Lounge', category: 'Condo', imageUrl: 'https://picsum.photos/seed/condo-lounge/800/1000' },
+  { id: '4', title: 'Corporate Headquarters', category: 'Commercial', imageUrl: 'https://picsum.photos/seed/office-modern/800/1000' },
+  { id: '5', title: 'Victorian Cabbagetown Semi', category: 'Exterior', imageUrl: 'https://picsum.photos/seed/victorian-house/800/1000' },
+  { id: '6', title: 'Modern Annex Kitchen', category: 'Interior', imageUrl: 'https://picsum.photos/seed/kitchen-luxury/800/1000' },
 ];
 
 export default function Portfolio() {
@@ -55,15 +55,22 @@ export default function Portfolio() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="group relative cursor-pointer overflow-hidden rounded-lg aspect-[4/5]"
+              className="group relative cursor-pointer overflow-hidden rounded-lg aspect-[4/5] bg-dark"
               onClick={() => setSelectedImage(item.imageUrl)}
             >
               <img
                 src={item.imageUrl}
                 alt={item.title}
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                className="h-full w-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-80 brightness-110"
                 referrerPolicy="no-referrer"
               />
+              <div className="absolute inset-0 bg-gold/5 mix-blend-overlay" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center transition-all duration-500 group-hover:scale-110">
+                  <p className="font-serif text-2xl italic text-gold">Coming soon</p>
+                  <p className="mt-2 text-[10px] uppercase tracking-widest text-white/60">Tecson Media</p>
+                </div>
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                 <div className="absolute bottom-6 left-6">
                   <p className="text-xs font-medium uppercase tracking-widest text-gold">{item.category}</p>
@@ -76,7 +83,7 @@ export default function Portfolio() {
       </div>
 
       {/* Lightbox */}
-      {selectedImage && (
+      {selectedImage !== null && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-6">
           <button 
             onClick={() => setSelectedImage(null)}
@@ -84,12 +91,19 @@ export default function Portfolio() {
           >
             <X className="h-8 w-8" />
           </button>
-          <img 
-            src={selectedImage} 
-            className="max-h-full max-w-full object-contain" 
-            alt="Selected"
-            referrerPolicy="no-referrer"
-          />
+          {selectedImage ? (
+            <img 
+              src={selectedImage} 
+              className="max-h-full max-w-full object-contain" 
+              alt="Selected"
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <div className="text-center">
+              <p className="font-serif text-3xl italic text-gold">Coming soon</p>
+              <p className="mt-4 text-xs uppercase tracking-widest text-white/60">Tecson Media</p>
+            </div>
+          )}
         </div>
       )}
     </section>

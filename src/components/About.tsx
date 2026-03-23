@@ -9,14 +9,21 @@ export default function About() {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="relative z-10 aspect-[3/4] overflow-hidden rounded-2xl"
+              className="relative z-10 aspect-[3/4] overflow-hidden rounded-2xl bg-dark"
             >
               <img
-                src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&q=80&w=800"
-                alt="Photographer"
-                className="h-full w-full object-cover"
+                src="https://picsum.photos/seed/luxury-vision/800/1000"
+                alt="Luxurious Vision"
+                className="h-full w-full object-cover opacity-60 transition-transform duration-700 hover:scale-110 brightness-110 contrast-110"
                 referrerPolicy="no-referrer"
               />
+              <div className="absolute inset-0 bg-gold/5 mix-blend-overlay" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <p className="font-serif text-2xl italic text-gold">Coming soon</p>
+                  <p className="mt-2 text-[10px] uppercase tracking-widest text-white/60">Tecson Media</p>
+                </div>
+              </div>
             </motion.div>
             <div className="absolute -bottom-10 -right-10 -z-0 h-64 w-64 rounded-full bg-gold/10 blur-3xl" />
           </div>
@@ -25,13 +32,13 @@ export default function About() {
             <h2 className="font-serif text-4xl font-light md:text-6xl">The <span className="italic text-gold">Vision</span></h2>
             <div className="mt-8 space-y-6 text-lg font-light leading-relaxed opacity-80">
               <p>
-                Tecson Media was founded on a simple principle: every property has a story that deserves to be told with elegance and precision. Based in the heart of Toronto, we specialize in capturing the architectural brilliance of the city's most prestigious listings.
+                Tecson Media was founded on a simple principle: every property has a story that deserves to be told with elegance and precision. Based in the heart of Toronto, I specialize in capturing the architectural brilliance of the city's most prestigious listings.
               </p>
               <p>
-                With over a decade of experience in architectural photography, our team combines technical mastery with an artistic eye. We don't just take photos; we create visual experiences that resonate with high-end buyers.
+                With a fresh perspective and 1-2 years of dedicated experience in architectural photography, I combine technical curiosity with a natural eye for composition. I don't just take photos; I create visual experiences that resonate with high-end buyers.
               </p>
               <p>
-                Our 24-hour turnaround and seamless booking process make us the preferred partner for Toronto's top-producing realtors. When you work with Tecson Media, you're investing in a visual standard that sets your listings apart.
+                My 24-hour turnaround and seamless booking process make me a reliable partner for Toronto's realtors. When you work with Tecson Media, you're investing in a visual standard that sets your listings apart.
               </p>
             </div>
             

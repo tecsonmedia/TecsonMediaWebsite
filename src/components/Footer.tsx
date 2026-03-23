@@ -32,7 +32,7 @@ export default function Footer() {
               <li><a href="#home" className="hover:text-gold">Home</a></li>
               <li><a href="#portfolio" className="hover:text-gold">Portfolio</a></li>
               <li><a href="#services" className="hover:text-gold">Services</a></li>
-              <li><a href="#about" className="hover:text-gold">About Us</a></li>
+              <li><a href="#about" className="hover:text-gold">About</a></li>
               <li><a href="#booking" className="hover:text-gold">Book a Shoot</a></li>
             </ul>
           </div>

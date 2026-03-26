@@ -1,6 +1,6 @@
 {
   "name": "Tecson Media Toronto",
-  "description": "Premium real estate photography, videography, and drone services in Toronto. Featuring an AI-powered booking assistant with voice support.",
+  "description": "Premium real estate photography, videography, and drone services in Toronto. Featuring an AI-powered booking assistant with voice support. v1.0.1",
   "requestFramePermissions": [
     "microphone"
   ]

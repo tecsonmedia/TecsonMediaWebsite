@@ -1,3 +1,4 @@
+// Tecson Media - Real Estate Photography v1.0.1
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";

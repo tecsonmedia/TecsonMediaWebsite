@@ -6,6 +6,15 @@ export default function Booking() {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    propertyType: 'Detached House',
+    dateTime: ''
+  });
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -47,9 +56,33 @@ export default function Booking() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('/api/booking/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to confirm booking');
+      }
+
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Booking error:', error);
+      alert('There was an error processing your booking. Please try again or contact us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -121,14 +154,30 @@ export default function Booking() {
                     <label className="text-xs font-bold uppercase tracking-widest opacity-60">Full Name</label>
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 opacity-30" />
-                      <input required type="text" className="w-full rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10" placeholder="John Doe" />
+                      <input 
+                        required 
+                        type="text" 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10" 
+                        placeholder="John Doe" 
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest opacity-60">Email Address</label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 opacity-30" />
-                      <input required type="email" className="w-full rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10" placeholder="john@example.com" />
+                      <input 
+                        required 
+                        type="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10" 
+                        placeholder="john@example.com" 
+                      />
                     </div>
                   </div>
                 </div>
@@ -137,7 +186,15 @@ export default function Booking() {
                   <label className="text-xs font-bold uppercase tracking-widest opacity-60">Phone Number</label>
                   <div className="relative">
                     <Phone className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 opacity-30" />
-                    <input required type="tel" className="w-full rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10" placeholder="+1 (416) 000-0000" />
+                    <input 
+                      required 
+                      type="tel" 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="w-full rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10" 
+                      placeholder="+1 (416) 000-0000" 
+                    />
                   </div>
                 </div>
 
@@ -145,7 +202,15 @@ export default function Booking() {
                   <label className="text-xs font-bold uppercase tracking-widest opacity-60">Property Address</label>
                   <div className="relative">
                     <MapPin className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 opacity-30" />
-                    <input required type="text" className="w-full rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10" placeholder="123 Luxury Lane, Toronto" />
+                    <input 
+                      required 
+                      type="text" 
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      className="w-full rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10" 
+                      placeholder="123 Luxury Lane, Toronto" 
+                    />
                   </div>
                 </div>
 
@@ -154,7 +219,12 @@ export default function Booking() {
                     <label className="text-xs font-bold uppercase tracking-widest opacity-60">Property Type</label>
                     <div className="relative">
                       <Home className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 opacity-30" />
-                      <select className="w-full appearance-none rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10">
+                      <select 
+                        name="propertyType"
+                        value={formData.propertyType}
+                        onChange={handleInputChange}
+                        className="w-full appearance-none rounded-xl border border-dark/10 bg-transparent py-3 pl-12 pr-4 focus:border-gold focus:outline-none dark:border-white/10"
+                      >
                         <option>Detached House</option>
                         <option>Condo / Apartment</option>
                         <option>Commercial Space</option>
@@ -164,15 +234,23 @@ export default function Booking() {
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest opacity-60">Preferred Date</label>
-                    <input required type="datetime-local" className="w-full rounded-xl border border-dark/10 bg-transparent py-3 px-4 focus:border-gold focus:outline-none dark:border-white/10" />
+                    <input 
+                      required 
+                      type="datetime-local" 
+                      name="dateTime"
+                      value={formData.dateTime}
+                      onChange={handleInputChange}
+                      className="w-full rounded-xl border border-dark/10 bg-transparent py-3 px-4 focus:border-gold focus:outline-none dark:border-white/10" 
+                    />
                   </div>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-dark py-4 text-sm font-bold uppercase tracking-widest text-white transition-all hover:bg-gold hover:text-dark dark:bg-paper dark:text-dark dark:hover:bg-gold"
+                  disabled={isSubmitting}
+                  className="w-full rounded-full bg-dark py-4 text-sm font-bold uppercase tracking-widest text-white transition-all hover:bg-gold hover:text-dark dark:bg-paper dark:text-dark dark:hover:bg-gold disabled:opacity-50"
                 >
-                  Confirm Booking
+                  {isSubmitting ? 'Processing...' : 'Confirm Booking'}
                 </button>
               </form>
             )}

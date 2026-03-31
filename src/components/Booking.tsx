@@ -3,8 +3,6 @@ import { motion } from 'motion/react';
 import { Calendar, MapPin, Home, User, Mail, CheckCircle, Phone } from 'lucide-react';
 
 export default function Booking() {
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -17,44 +15,17 @@ export default function Booking() {
   });
 
   useEffect(() => {
-    const checkStatus = async () => {
+    const checkServer = async () => {
       try {
-        const response = await fetch('/api/auth/status');
+        const response = await fetch('/api/health');
         const data = await response.json();
-        if (data.isConnected) setIsConnected(true);
+        console.log('Server health:', data);
       } catch (error) {
-        console.error('Status check error:', error);
+        console.error('Server health check failed:', error);
       }
     };
-    checkStatus();
-
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data?.type === 'OAUTH_AUTH_SUCCESS') {
-        setIsConnected(true);
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+    checkServer();
   }, []);
-
-  const handleConnect = async () => {
-    setIsConnecting(true);
-    try {
-      const response = await fetch('/api/auth/url');
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to get auth URL');
-      }
-      
-      window.open(data.url, 'oauth_popup', 'width=600,height=700');
-    } catch (error) {
-      console.error('Auth error:', error);
-      alert(error instanceof Error ? error.message : 'Could not connect to Google Calendar. Please check your configuration.');
-    } finally {
-      setIsConnecting(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +39,8 @@ export default function Booking() {
       });
 
       if (!response.ok) {
+        const text = await response.text();
+        console.error('Booking confirm error response:', text);
         throw new Error('Failed to confirm booking');
       }
 
@@ -92,29 +65,10 @@ export default function Booking() {
           <div>
             <h2 className="font-serif text-4xl font-light md:text-6xl">Book Your <span className="italic text-gold">Session</span></h2>
             <p className="mt-6 text-lg font-light opacity-70">
-              Ready to elevate your listing? Use my automated system to check availability and secure your spot instantly.
+              Ready to elevate your listing? Fill out the form below to request a booking. I will get back to you within 24 hours to confirm the details.
             </p>
 
             <div className="mt-12 space-y-8">
-              {!isConnected ? (
-                <div className="rounded-2xl border border-gold/20 bg-gold/5 p-8">
-                  <h3 className="font-serif text-xl">Sync with Calendar</h3>
-                  <p className="mt-2 text-sm opacity-60">Connect your Google Calendar to see real-time availability and sync your booking.</p>
-                  <button
-                    onClick={handleConnect}
-                    disabled={isConnecting}
-                    className="mt-6 rounded-full bg-gold px-6 py-3 text-xs font-bold uppercase tracking-widest text-dark hover:bg-white transition-colors"
-                  >
-                    {isConnecting ? 'Connecting...' : 'Connect Google Calendar'}
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-emerald-500">
-                  <CheckCircle className="h-6 w-6" />
-                  <p className="text-sm font-medium">Calendar Connected Successfully</p>
-                </div>
-              )}
-
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <MapPin className="text-gold" />

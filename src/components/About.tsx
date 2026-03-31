@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 
 export default function About() {
   return (
-    <section id="about" className="py-24 px-6 overflow-hidden">
+    <section id="about" className="py-24 px-6 overflow-hidden bg-white dark:bg-dark/50">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 items-center">
           <div className="relative">

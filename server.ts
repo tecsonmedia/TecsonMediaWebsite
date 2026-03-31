@@ -30,7 +30,12 @@ async function startServer() {
   
   // Health check
   app.get("/api/health", (req, res) => {
-    res.json({ status: "ok", env: process.env.NODE_ENV });
+    res.json({ 
+      status: "ok", 
+      env: process.env.NODE_ENV,
+      time: new Date().toISOString(),
+      cwd: process.cwd()
+    });
   });
 
   app.use(cookieParser());
@@ -49,6 +54,7 @@ async function startServer() {
   // Booking Confirmation API
   app.post("/api/booking/confirm", async (req, res) => {
     const { name, email, phone, address, propertyType, dateTime } = req.body;
+    console.log(`[Booking] New request from ${name} (${email})`);
 
     try {
       // 1. Send Email to Admin
@@ -84,32 +90,40 @@ async function startServer() {
 
       // Try sending via SMTP if configured
       if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+        console.log("[Booking] Attempting to send email via SMTP...");
         await transporter.sendMail(mailOptions);
+        console.log("[Booking] Email sent successfully.");
         res.json({ success: true, message: "Booking confirmed and email sent." });
       } else {
-        console.warn("SMTP credentials missing. Email not sent, but logging booking for demo purposes.");
-        console.log("Booking Details:", { name, email, phone, address, propertyType, dateTime });
-        // Return success so the UI doesn't break, but inform the user in logs
+        console.warn("[Booking] SMTP credentials missing. Email not sent.");
+        console.log("[Booking] Details:", { name, email, phone, address, propertyType, dateTime });
         res.json({ 
           success: true, 
           message: "Booking received! (Note: SMTP not configured, check server logs for details)." 
         });
       }
     } catch (error) {
-      console.error("Booking confirmation error:", error);
-      res.status(500).json({ error: "Failed to process booking confirmation" });
+      console.error("[Booking] Error processing confirmation:", error);
+      res.status(500).json({ 
+        error: "Failed to process booking confirmation",
+        details: error instanceof Error ? error.message : "Unknown error"
+      });
     }
   });
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    console.log("[Server] Running in DEVELOPMENT mode with Vite middleware");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
   } else {
+    console.log("[Server] Running in PRODUCTION mode");
     const distPath = path.join(process.cwd(), "dist");
+    console.log(`[Server] Serving static files from: ${distPath}`);
+    
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));

@@ -35,7 +35,7 @@ export default function About() {
                 Tecson Media was founded on a simple principle: every property has a story that deserves to be told with elegance and precision. Based in the heart of Toronto, I specialize in capturing the architectural brilliance of the city's most prestigious listings.
               </p>
               <p>
-                With a fresh perspective and 1-2 years of dedicated experience in architectural photography, I combine technical curiosity with a natural eye for composition. I don't just take photos; I create visual experiences that resonate with high-end buyers.
+                With a fresh perspective and nearly 2 years of dedicated experience in all around photography, I combine technical curiosity with a natural eye for composition. I don't just take photos; I create visual experiences that resonate with high-end buyers.
               </p>
               <p>
                 My 24-hour turnaround and seamless booking process make me a reliable partner for Toronto's realtors. When you work with Tecson Media, you're investing in a visual standard that sets your listings apart.
